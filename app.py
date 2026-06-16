@@ -85,7 +85,7 @@ OPSLIMIT_ANSWERS = [
     # ── ENGINE LIMITS table (GROUND EGT/RPM/OIL, FLIGHT EGT/RPM/OIL) ────────
     "935",  # 0  START   · GROUND EGT °C
     "935",  # 1  START   · FLIGHT EGT °C
-    "680",  # 2  IDLE    · GROUND EGT °C
+    "650",  # 2  IDLE    · GROUND EGT °C
     "80",   # 3  IDLE    · GROUND RPM %
     "15",   # 4  IDLE    · GROUND OIL PSI (low)
     "65",   # 5  IDLE    · GROUND OIL PSI (high)
