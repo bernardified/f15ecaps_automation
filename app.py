@@ -83,77 +83,77 @@ assert len(CAPS_ANSWERS) == 60
 # 61 fields, so every entry must be set. Order matches txtGrdlimit_<index>.
 OPSLIMIT_ANSWERS = [
     # ── ENGINE LIMITS table (GROUND EGT/RPM/OIL, FLIGHT EGT/RPM/OIL) ────────
-    None,  # 0  START   · GROUND EGT °C
-    None,  # 1  START   · FLIGHT EGT °C
-    None,  # 2  IDLE    · GROUND EGT °C
-    None,  # 3  IDLE    · GROUND RPM %
-    None,  # 4  IDLE    · GROUND OIL PSI (low)
-    None,  # 5  IDLE    · GROUND OIL PSI (high)
-    None,  # 6  IDLE    · FLIGHT OIL PSI (low)
-    None,  # 7  IDLE    · FLIGHT OIL PSI (high)
-    None,  # 8  MIL/AUG · GROUND EGT °C
-    None,  # 9  MIL/AUG · GROUND RPM %
-    None,  # 10 MIL/AUG · GROUND OIL PSI (low)
-    None,  # 11 MIL/AUG · GROUND OIL PSI (high)
-    None,  # 12 MIL/AUG · FLIGHT EGT °C
-    None,  # 13 MIL/AUG · FLIGHT RPM %
-    None,  # 14 MIL/AUG · FLIGHT OIL PSI (low)
-    None,  # 15 MIL/AUG · FLIGHT OIL PSI (high)
-    None,  # 16 FLUCT   · GROUND EGT ± °C
-    None,  # 17 FLUCT   · GROUND RPM ± %
-    None,  # 18 FLUCT   · GROUND OIL ± PSI
-    None,  # 19 FLUCT   · FLIGHT EGT ± °C
-    None,  # 20 FLUCT   · FLIGHT RPM ± %
-    None,  # 21 FLUCT   · FLIGHT OIL ± PSI
+    "935",  # 0  START   · GROUND EGT °C
+    "935",  # 1  START   · FLIGHT EGT °C
+    "680",  # 2  IDLE    · GROUND EGT °C
+    "80",   # 3  IDLE    · GROUND RPM %
+    "15",   # 4  IDLE    · GROUND OIL PSI (low)
+    "65",   # 5  IDLE    · GROUND OIL PSI (high)
+    "15",   # 6  IDLE    · FLIGHT OIL PSI (low)
+    "65",   # 7  IDLE    · FLIGHT OIL PSI (high)
+    "980",  # 8  MIL/AUG · GROUND EGT °C
+    "108",  # 9  MIL/AUG · GROUND RPM %
+    "35",   # 10 MIL/AUG · GROUND OIL PSI (low)
+    "65",   # 11 MIL/AUG · GROUND OIL PSI (high)
+    "980",  # 12 MIL/AUG · FLIGHT EGT °C
+    "108",  # 13 MIL/AUG · FLIGHT RPM %
+    "35",   # 14 MIL/AUG · FLIGHT OIL PSI (low)
+    "65",   # 15 MIL/AUG · FLIGHT OIL PSI (high)
+    "15",   # 16 FLUCT   · GROUND EGT ± °C
+    "1",    # 17 FLUCT   · GROUND RPM ± %
+    "5",    # 18 FLUCT   · GROUND OIL ± PSI
+    "15",   # 19 FLUCT   · FLIGHT EGT ± °C
+    "1",    # 20 FLUCT   · FLIGHT RPM ± %
+    "5",    # 21 FLUCT   · FLIGHT OIL ± PSI
 
     # ── AIRSPEED / LOAD FACTOR table ────────────────────────────────────────
-    None,  # 22 LANDING GEAR (NORMAL) · airspeed KCAS
-    None,  # 23 LANDING GEAR (NORMAL) · load factor G
-    None,  # 24 Ldg gear spd raised to … KCAS
-    None,  # 25 Load factor reduced to … G above 250 KCAS (step 0.01)
-    None,  # 26 LANDING GEAR (Emerg Ext) · airspeed KCAS
-    None,  # 27 LANDING GEAR (Emerg Ext) · load factor G
-    None,  # 28 Positional lights may not show 3 greens until … KCAS
-    None,  # 29 FLAPS DOWN · airspeed KCAS
-    None,  # 30 FLAPS DOWN · load factor from … G
-    None,  # 31 FLAPS DOWN · load factor to + … G
-    None,  # 32 INLETS EMERG POSITION · from … G
-    None,  # 33 INLETS EMERG POSITION · to + … G
-    None,  # 34 CANOPY OPEN · KNOTS
-    None,  # 35 TIRES (NOSE) · KNOTS
-    None,  # 36 TIRES (MAIN) · KNOTS
+    "250",  # 22 LANDING GEAR (NORMAL) · airspeed KCAS
+    "2",    # 23 LANDING GEAR (NORMAL) · load factor G
+    "300",  # 24 Ldg gear spd raised to … KCAS
+    "1.25", # 25 Load factor reduced to … G above 250 KCAS (step 0.01)
+    "250",  # 26 LANDING GEAR (Emerg Ext) · airspeed KCAS
+    "2",    # 27 LANDING GEAR (Emerg Ext) · load factor G
+    "200",  # 28 Positional lights may not show 3 greens until … KCAS
+    "250",  # 29 FLAPS DOWN · airspeed KCAS
+    "0",    # 30 FLAPS DOWN · load factor from … G
+    "4",    # 31 FLAPS DOWN · load factor to + … G
+    "1",    # 32 INLETS EMERG POSITION · from … G
+    "4",    # 33 INLETS EMERG POSITION · to + … G
+    "60",   # 34 CANOPY OPEN · KNOTS
+    "210",  # 35 TIRES (NOSE) · KNOTS
+    "227",  # 36 TIRES (MAIN) · KNOTS
 
     # ── JFS ─────────────────────────────────────────────────────────────────
-    None,  # 37 Max sec between initiation and READY light
-    None,  # 38 … sec if below 0°F
-    None,  # 39 Max engagement time sec
-    None,  # 40 Extended to … sec if HOT START
-    None,  # 41 Wait … sec before re-engaging if engagement > 90 sec
-    None,  # 42 Min … sec between 1st eng at idle and 2nd eng engagement
+    "10",   # 37 Max sec between initiation and READY light
+    "15",   # 38 … sec if below 0°F
+    "90",   # 39 Max engagement time sec
+    "150",  # 40 Extended to … sec if HOT START
+    "20",   # 41 Wait … sec before re-engaging if engagement > 90 sec
+    "10",   # 42 Min … sec between 1st eng at idle and 2nd eng engagement
 
     # ── MAX 30 CPU AOA conditions ───────────────────────────────────────────
-    None,  # 43 Without ext tanks, lateral asymmetry over … ft-lbs
-    None,  # 44 With ext tanks, lateral asymmetry over … ft-lbs
-    None,  # 45 … stores (text)
-    None,  # 46 … pods (text)
-    None,  # 47 SUU-20B/A exception limited to … CPU AOA
-    None,  # 48 … in wing mounted tanks (text)
-    None,  # 49 … external tanks
-    None,  # 50 Gear … (text)
-    None,  # 51 … Ramps (text)
-    None,  # 52 CAS … (text)
-    None,  # 53 … caution (text)
-    None,  # 54 … fuel transfer problem (text)
+    "8000",        # 43 Without ext tanks, lateral asymmetry over … ft-lbs
+    "5000",        # 44 With ext tanks, lateral asymmetry over … ft-lbs
+    "A/G",         # 45 … stores (text)
+    "CARGO",       # 46 … pods (text)
+    "35",          # 47 SUU-20B/A exception limited to … CPU AOA
+    "FUEL",        # 48 … in wing mounted tanks (text)
+    "3",           # 49 … external tanks
+    "DOWN",        # 50 Gear … (text)
+    "SPLIT",       # 51 … Ramps (text)
+    "OFF",         # 52 CAS … (text)
+    "HI AOA DGRD", # 53 … caution (text)
+    "TANK 1",      # 54 … fuel transfer problem (text)
 
     # ── CROSSWIND LIMITS ────────────────────────────────────────────────────
-    None,  # 55 Dry … Kts
-    None,  # 56 Wet … Kts
-    None,  # 57 Effective wind velocity = steady + … gust velocity (text)
-    None,  # 58 Winds 050/30G40 → effective wind vel is … (text)
+    "30",          # 55 Dry … Kts
+    "25",          # 56 Wet … Kts
+    "1/2",         # 57 Effective wind velocity = steady + … gust velocity (text)
+    "050/35",      # 58 Winds 050/30G40 → effective wind vel is … (text)
 
     # ── NEGATIVE G FLIGHT ───────────────────────────────────────────────────
-    None,  # 59 Negative G flight limited to … secs
-    None,  # 60 Fuel migrates toward the … of the feed tank (text)
+    "7",           # 59 Negative G flight limited to … secs
+    "FRONT",       # 60 Fuel migrates toward the … of the feed tank (text)
 ]
 assert len(OPSLIMIT_ANSWERS) == 61
 
