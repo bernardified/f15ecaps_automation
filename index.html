@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>142 SQN e-CAPS Submitter</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #0ea5e9;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 0.35rem;
+    }
+
+    p.sub {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 1.75rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 0.4rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 7px;
+      color: #f1f5f9;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #0ea5e9;
+    }
+
+    button {
+      margin-top: 1.25rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: #0ea5e9;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    button:hover:not(:disabled) { background: #0284c7; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #status {
+      margin-top: 1.25rem;
+      padding: 0.75rem 1rem;
+      border-radius: 7px;
+      font-size: 0.875rem;
+      display: none;
+      line-height: 1.5;
+    }
+
+    #status.loading {
+      display: block;
+      background: #1e3a5f;
+      border: 1px solid #0ea5e9;
+      color: #7dd3fc;
+    }
+
+    #status.success {
+      display: block;
+      background: #14432a;
+      border: 1px solid #22c55e;
+      color: #86efac;
+    }
+
+    #status.error {
+      display: block;
+      background: #450a0a;
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #7dd3fc;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .footer {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: #475569;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">142 SQN</div>
+    <h1>e-CAPS Submitter</h1>
+    <p class="sub">Enter your callsign to auto-fill and submit the weekly CAPS form.</p>
+
+    <label for="callsign">Callsign</label>
+    <input
+      type="text"
+      id="callsign"
+      placeholder="e.g. CABLE"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+    />
+
+    <button id="submitBtn" onclick="submitForm()">Submit e-CAPS</button>
+
+    <div id="status"></div>
+
+    <div class="footer">Runs on Railway — no laptop needed.</div>
+  </div>
+
+  <script>
+    async function submitForm() {
+      const callsign = document.getElementById("callsign").value.trim();
+      const btn      = document.getElementById("submitBtn");
+      const status   = document.getElementById("status");
+
+      if (!callsign) {
+        showStatus("error", "Please enter your callsign.");
+        return;
+      }
+
+      btn.disabled = true;
+      showStatus("loading", '<span class="spinner"></span>Submitting form — this takes ~30 seconds…');
+
+      try {
+        const res  = await fetch("/submit", {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify({ callsign }),
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          showStatus("success", "✓ " + (data.message || "Submitted successfully."));
+        } else {
+          showStatus("error", "✗ " + (data.message || "Submission failed."));
+        }
+      } catch (err) {
+        showStatus("error", "✗ Network error: " + err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function showStatus(type, html) {
+      const el = document.getElementById("status");
+      el.className = type;
+      el.innerHTML = html;
+    }
+
+    // Allow Enter key to submit
+    document.getElementById("callsign").addEventListener("keydown", e => {
+      if (e.key === "Enter") submitForm();
+    });
+  </script>
+</body>
+</html>
