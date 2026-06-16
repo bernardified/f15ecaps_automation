@@ -166,7 +166,8 @@
       spellcheck="false"
     />
 
-    <button id="submitBtn" onclick="submitForm()">Submit e-CAPS</button>
+    <button id="capsBtn" onclick="submitForm('caps')">Submit CAPS</button>
+    <button id="opsBtn" onclick="submitForm('opslimit')">Submit Ops Limit</button>
 
     <div id="status"></div>
 
@@ -174,24 +175,25 @@
   </div>
 
   <script>
-    async function submitForm() {
+    const BUTTONS = ["capsBtn", "opsBtn"];
+
+    async function submitForm(form) {
       const callsign = document.getElementById("callsign").value.trim();
-      const btn      = document.getElementById("submitBtn");
-      const status   = document.getElementById("status");
 
       if (!callsign) {
         showStatus("error", "Please enter your callsign.");
         return;
       }
 
-      btn.disabled = true;
-      showStatus("loading", '<span class="spinner"></span>Submitting form — this takes ~30 seconds…');
+      const label = form === "opslimit" ? "Ops Limit" : "CAPS";
+      BUTTONS.forEach(id => document.getElementById(id).disabled = true);
+      showStatus("loading", '<span class="spinner"></span>Submitting ' + label + ' — this takes ~30 seconds…');
 
       try {
         const res  = await fetch("/submit", {
           method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ callsign }),
+          body:    JSON.stringify({ callsign, form }),
         });
         const data = await res.json();
 
@@ -203,7 +205,7 @@
       } catch (err) {
         showStatus("error", "✗ Network error: " + err.message);
       } finally {
-        btn.disabled = false;
+        BUTTONS.forEach(id => document.getElementById(id).disabled = false);
       }
     }
 
@@ -213,9 +215,9 @@
       el.innerHTML = html;
     }
 
-    // Allow Enter key to submit
+    // Allow Enter key to submit CAPS (the weekly default)
     document.getElementById("callsign").addEventListener("keydown", e => {
-      if (e.key === "Enter") submitForm();
+      if (e.key === "Enter") submitForm("caps");
     });
   </script>
 </body>
