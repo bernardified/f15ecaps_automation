@@ -1,2 +1,4 @@
 flask>=3.0.0
-playwright>=1.44.0
+# Pin EXACT version — must match the Playwright Docker base image tag in Dockerfile,
+# or Chromium baked into the image won't match the driver (BrowserType.launch fails).
+playwright==1.60.0

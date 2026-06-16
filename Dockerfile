@@ -1,5 +1,7 @@
-# Official Playwright Python image — Chromium is pre-installed, no extra steps needed
-FROM mcr.microsoft.com/playwright/python:v1.44.0-jammy
+# Official Playwright Python image — Chromium is pre-installed, no extra steps needed.
+# This tag MUST match the pinned playwright version in requirements.txt, otherwise the
+# pip-installed driver looks for a browser binary this image doesn't carry.
+FROM mcr.microsoft.com/playwright/python:v1.60.0-jammy
 
 WORKDIR /app
 
