@@ -13,7 +13,7 @@ Two forms share one Playwright flow (see FORMS below):
 import asyncio
 import os
 from flask import Flask, request, jsonify, send_from_directory
-from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError, expect
+from playwright.async_api import async_playwright
 
 app = Flask(__name__, static_folder=".")
 
@@ -216,14 +216,37 @@ async def submit_form(form_key: str, callsign: str) -> dict:
 
             await form.locator(cfg["check_btn"]).click()
 
-            try:
-                await expect(form.locator("#btn_submit")).to_be_enabled(timeout=30_000)
-            except PlaywrightTimeoutError:
+            # Poll for the submit button to enable. The form only enables it once
+            # every answer validates; on a mismatch it disables fields up to the
+            # first wrong one and leaves that field enabled (so we can name it).
+            enabled = False
+            for _ in range(60):  # ~30 s
+                if await form.locator("#btn_submit").is_enabled():
+                    enabled = True
+                    break
+                await page.wait_for_timeout(500)
+
+            if not enabled:
                 try:
-                    msg = await form.locator(cfg["check_lbl"]).text_content(timeout=3_000)
+                    msg = (await form.locator(cfg["check_lbl"]).text_content(timeout=2_000) or "").strip()
                 except Exception:
-                    msg = "(no feedback label found)"
-                return {"ok": False, "message": f"Validation timed out. Server said: {msg}"}
+                    msg = ""
+                bad = None
+                for i in range(len(answers)):
+                    try:
+                        if await form.locator(f"#{cfg['prefix']}{i}").is_enabled():
+                            bad = i
+                            break
+                    except Exception:
+                        pass
+                detail = (
+                    f" First field still flagged: {cfg['prefix']}{bad} "
+                    f"(value sent: {answers[bad]!r})." if bad is not None else ""
+                )
+                return {
+                    "ok": False,
+                    "message": f"Validation did not pass. Form said: {msg or '(no message)'}.{detail}",
+                }
 
             await form.locator("#txtCallsign").fill(callsign.strip().upper())
             await form.locator("#btn_submit").click()
