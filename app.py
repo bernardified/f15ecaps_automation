@@ -99,10 +99,10 @@ OPSLIMIT_ANSWERS = [
     "108",  # 13 MIL/AUG · FLIGHT RPM %
     "35",   # 14 MIL/AUG · FLIGHT OIL PSI (low)
     "65",   # 15 MIL/AUG · FLIGHT OIL PSI (high)
-    "15",   # 16 FLUCT   · GROUND EGT ± °C
+    "10",   # 16 FLUCT   · GROUND EGT ± °C
     "1",    # 17 FLUCT   · GROUND RPM ± %
     "5",    # 18 FLUCT   · GROUND OIL ± PSI
-    "15",   # 19 FLUCT   · FLIGHT EGT ± °C
+    "10",   # 19 FLUCT   · FLIGHT EGT ± °C
     "1",    # 20 FLUCT   · FLIGHT RPM ± %
     "5",    # 21 FLUCT   · FLIGHT OIL ± PSI
 
