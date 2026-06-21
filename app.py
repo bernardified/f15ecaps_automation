@@ -281,6 +281,11 @@ def submit():
     callsign = (data.get("callsign") or "").strip()
     form_key = (data.get("form") or "caps").strip().lower()
 
+    # Log the request body bits — Railway's HTTP/access log only shows the
+    # request line (method/path/status), never the POST body, so the callsign
+    # has to be logged by the app to be visible in Railway logs.
+    print(f"/submit form={form_key!r} callsign={callsign!r}", flush=True)
+
     if not callsign:
         return jsonify({"ok": False, "message": "Callsign is required."}), 400
     if form_key not in FORMS:
@@ -288,6 +293,8 @@ def submit():
 
     result = asyncio.run(submit_form(form_key, callsign))
     status = 200 if result["ok"] else 500
+    print(f"/submit result form={form_key!r} callsign={callsign!r} "
+          f"ok={result.get('ok')} msg={result.get('message')!r}", flush=True)
     return jsonify(result), status
 
 # ── ENTRY ─────────────────────────────────────────────────────────────────────
