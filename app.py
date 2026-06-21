@@ -269,6 +269,12 @@ async def submit_form(form_key: str, callsign: str) -> dict:
 def index():
     return send_from_directory(".", "index.html")
 
+@app.route("/favicon.ico")
+def favicon():
+    # Browsers auto-request this; we have no icon, so answer "no content"
+    # instead of letting it 404 and clutter the logs.
+    return ("", 204)
+
 @app.route("/submit", methods=["POST"])
 def submit():
     data = request.get_json(force=True, silent=True) or {}
